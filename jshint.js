@@ -209,9 +209,9 @@
  moveTo, mocha, mootools, multistr, name, navigator, new, newcap, noarg, node, noempty, nomen,
  nonew, nonstandard, nud, onbeforeunload, onblur, onerror, onevar, onecase, onfocus,
  onload, onresize, onunload, open, openDatabase, openURL, opener, opera, options, outer, param,
- parent, parseFloat, parseInt, passfail, plusplus, postMessage, pop, predef, print, process, prompt,
- proto, prototype, prototypejs, provides, push, quit, quotmark, range, raw, reach, reason, regexp,
- readFile, readUrl, regexdash, removeEventListener, replace, report, require,
+ parent, parseFloat, parseInt, passfail, plusplus, postMessage, pop, poorrels, predef, print,
+ process, prompt, proto, prototype, prototypejs, provides, push, quit, quotmark, range, raw, reach,
+ reason, regexp, readFile, readUrl, regexdash, removeEventListener, replace, report, require,
  reserved, resizeBy, resizeTo, resolvePath, resumeUpdates, respond, rhino, right,
  runCommand, scroll, screen, scripturl, scrollBy, scrollTo, scrollbar, search, seal, self,
  send, serialize, sessionStorage, setup, setInterval, setTimeout, setter, setterToken, shift, slice,
@@ -301,6 +301,7 @@ var JSHINT = (function () {
             onecase     : true, // if one case switch statements should be allowed
             passfail    : true, // if the scan should stop on first error
             plusplus    : true, // if increment/decrement should not be allowed
+            poorrels    : true, // if ==/!= should be checked for dangerous usecases
             proto       : true, // if the `__proto__` property should be allowed
             prototypejs : true, // if Prototype and Scriptaculous globals should be
                                 // predefined
@@ -2402,7 +2403,7 @@ loop:   for (;;) {
 
 
     function isPoorRelation(node) {
-        return node &&
+        return node && option.poorrels &&
               ((node.type === "(number)" && +node.value === 0) ||
                (node.type === "(string)" && node.value === "") ||
                (node.type === "null" && !option.eqnull) ||
