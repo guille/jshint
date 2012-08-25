@@ -206,12 +206,12 @@
  JSHINT, json, jquery, jQuery, keys, label, labelled, last, lastcharacter, lastsemic, laxbreak,
  laxcomma, latedef, lbp, led, left, length, line, load, loadClass, localStorage, location,
  log, loopfunc, m, match, max, maxerr, maxlen, member,message, meta, module, moveBy,
- moveTo, mocha, mootools, multistr, name, navigator, new, newcap, noarg, node, noempty, nomen,
- nonew, nonstandard, nud, onbeforeunload, onblur, onerror, onevar, onecase, onfocus,
- onload, onresize, onunload, open, openDatabase, openURL, opener, opera, options, outer, param,
- parent, parseFloat, parseInt, passfail, plusplus, postMessage, pop, poorrels, predef, print,
+ moveTo, mocha, mootools, multistr, name, navigator, new, newcap, noarg, node, noempty,
+ noextrasemis, nomen, nonew, nonstandard, nud, onbeforeunload, onblur, onerror, onevar, onecase,
+ onfocus, onload, onresize, onunload, open, openDatabase, openURL, opener, opera, options, outer,
+ param, parent, parseFloat, parseInt, passfail, plusplus, postMessage, pop, poorrels, predef, print,
  process, prompt, proto, prototype, prototypejs, provides, push, quit, quotmark, range, raw, reach,
- reason, regexp, readFile, readUrl, regexdash, removeEventListener, replace, report, require,
+ reason, redef, regexp, readFile, readUrl, regexdash, removeEventListener, replace, report, require,
  reserved, resizeBy, resizeTo, resolvePath, resumeUpdates, respond, rhino, right,
  runCommand, scroll, screen, scripturl, scrollBy, scrollTo, scrollbar, search, seal, self,
  send, serialize, sessionStorage, setup, setInterval, setTimeout, setter, setterToken, shift, slice,
@@ -292,6 +292,7 @@ var JSHINT = (function () {
             node        : true, // if the Node.js environment globals should be
                                 // predefined
             noempty     : true, // if empty blocks should be disallowed
+            noextrasemis: true, // if no extra semicolons should be allowed
             nonew       : true, // if using `new` for side-effects should be disallowed
             nonstandard : true, // if non-standard (but widely adopted) globals should
                                 // be predefined
@@ -305,6 +306,7 @@ var JSHINT = (function () {
             proto       : true, // if the `__proto__` property should be allowed
             prototypejs : true, // if Prototype and Scriptaculous globals should be
                                 // predefined
+            redef       : true, // if redefinitions should be caught
             regexdash   : true, // if unescaped first/last dash (-) inside brackets
                                 // should be tolerated
             regexp      : true, // if the . should not be allowed in regexp literals
@@ -2662,7 +2664,7 @@ loop:   for (;;) {
         while (!nexttoken.reach && nexttoken.id !== "(end)") {
             if (nexttoken.id === ";") {
                 p = peek();
-                if (!p || p.id !== "(") {
+                if (option.noextrasemis && (!p || p.id !== "(")) {
                     warning("Unnecessary semicolon.");
                 }
                 advance(";");
@@ -3629,7 +3631,7 @@ loop:   for (;;) {
                 if (funct[id] === "const") {
                     warning("const '" + id + "' has already been declared");
                 }
-                if (funct["(global)"] && predefined[id] === false) {
+                if (funct["(global)"] && option.redef && predefined[id] === false) {
                     warning("Redefinition of '{a}'.", token, id);
                 }
                 addlabel(id, "const");
@@ -3691,7 +3693,7 @@ loop:   for (;;) {
                 warning("const '" + id + "' has already been declared");
             }
 
-            if (funct["(global)"] && predefined[id] === false) {
+            if (funct["(global)"] && option.redef && predefined[id] === false) {
                 warning("Redefinition of '{a}'.", token, id);
             }
 
