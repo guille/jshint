@@ -218,8 +218,8 @@
  smarttabs, sort, spawn, split, stack, status, start, strict, sub, substr, suite, supernew, shadow,
  supplant, sum, sync, teardown, test, toLowerCase, toString, toUpperCase, toint32, token, tokens,
  top, trailing, type, typeOf, Uint16Array, Uint32Array, Uint8Array, undef, undefs, unused,
- urls, validthis, value, valueOf, var, vars, version, WebSocket, withstmt, white, window, windows,
- Worker, worker, wsh*/
+ urls, validdecdot, validthis, value, valueOf, var, vars, version, WebSocket, withstmt, white,
+ window, windows, Worker, worker, wsh*/
 
 /*global exports: false */
 
@@ -322,6 +322,7 @@ var JSHINT = (function () {
             supernew    : true, // if `new function () { ... };` and `new Object;`
                                 // should be tolerated
             trailing    : true, // if trailing whitespace rules apply
+            validdecdot : true, // if decimal leading dot is valid
             validthis   : true, // if 'this' inside a non-constructor function is valid.
                                 // This is a function scoped option only.
             withstmt    : true, // if with statements should be allowed
@@ -2118,8 +2119,10 @@ loop:   for (;;) {
                 left = token.nud();
             } else {
                 if (nexttoken.type === "(number)" && token.id === ".") {
-                    warning("A leading decimal point can be confused with a dot: '.{a}'.",
-                            token, nexttoken.value);
+                    if (!option.validdecdot) {
+                        warning("A leading decimal point can be confused with a dot: '.{a}'.",
+                                token, nexttoken.value);
+                    }
                     advance();
                     return token;
                 } else {
