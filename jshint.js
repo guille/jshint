@@ -3905,9 +3905,9 @@ loop:   for (;;) {
                     // adding a comment /* falls through */ on a line just before
                     // the next `case`.
                     if (!ft.test(lines[nexttoken.line - 2])) {
-                        warning(
-                            "Expected a 'break' statement before 'case'.",
-                            token);
+                        //warning(
+                            //"Expected a 'break' statement before 'case'.",
+                            //token);
                     }
                 }
                 indentation(-option.indent);
