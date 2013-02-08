@@ -2035,17 +2035,20 @@ loop:   for (;;) {
         switch (token.id) {
         case "(number)":
             if (nexttoken.id === ".") {
-                warning("A dot following a number can be confused with a decimal point.", token);
+                // ghint change
+                //warning("A dot following a number can be confused with a decimal point.", token);
             }
             break;
         case "-":
             if (nexttoken.id === "-" || nexttoken.id === "--") {
-                warning("Confusing minusses.");
+                // ghint change
+                //warning("Confusing minusses.");
             }
             break;
         case "+":
             if (nexttoken.id === "+" || nexttoken.id === "++") {
-                warning("Confusing plusses.");
+                // ghint change
+                //warning("Confusing plusses.");
             }
             break;
         }
