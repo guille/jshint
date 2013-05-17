@@ -200,7 +200,7 @@
  ex, exception, exec, exps, expr, exports, FileReader, first, floor, focus, forEach,
  forin, fragment, frames, from, fromCharCode, fud, funcscope, funct, function, functions,
  g, gc, getComputedStyle, getRow, getter, getterToken, GLOBAL, global, globals, globalstrict,
- hasOwnProperty, help, history, i, id, identifier, immed, implieds, importPackage, include,
+ hasOwnProperty, help, history, i, id, identifier, ignore, immed, implieds, importPackage, include,
  indent, indexOf, init, ins, instanceOf, isAlpha, isApplicationRunning, isArray,
  isDigit, isFinite, isNaN, it, iterator, java, join, jshint,
  JSHINT, json, jquery, jQuery, keys, label, labelled, last, lastcharacter, lastsemic, laxbreak,
@@ -1026,6 +1026,7 @@ var JSHINT = (function () {
     }
 
     function warning(m, t, a, b, c, d) {
+        if (option.ignore) return;
         var ch, l, w;
         t = t || nexttoken;
         if (t.id === "(end)") {  // `~
