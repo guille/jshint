@@ -1450,8 +1450,8 @@ unclosedString:     for (;;) {
                                 d = t.substr(1, 1);
                                 if (isDigit(d)) {
                                     if (token.id !== ".") {
-                                        warningAt("Don't use extra leading zeros '{a}'.",
-                                            line, character, t);
+                                        //warningAt("Don't use extra leading zeros '{a}'.",
+                                            //line, character, t);
                                     }
                                 } else if (jsonmode && (d === "x" || d === "X")) {
                                     warningAt("Avoid 0x-. '{a}'.",
